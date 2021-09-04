@@ -18,7 +18,6 @@ logging.getLogger()
 def read_service_creds(key_file_location):
     if not os.path.exists(key_file_location):
         data = os.getenv("CREDENTIALS_SERVICE_ACCOUNT")
-        print(data)
         with open(key_file_location, "w") as f:
             f.write(data)
 
