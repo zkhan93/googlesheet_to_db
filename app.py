@@ -9,7 +9,7 @@ print(os.environ)
 
 logging.basicConfig(
     format="%(asctime)s:%(levelname)s:%(filename)s:%(lineno)d: %(message)s",
-    level=logging.DEBUG,
+    level=logging.INFO,
     stream=sys.stdout,
 )
 logging.getLogger()
