@@ -5,7 +5,6 @@ import logging
 from google_sheet import SheetReaderService
 from target.database import Database
 
-print(os.environ)
 
 logging.basicConfig(
     format="%(asctime)s:%(levelname)s:%(filename)s:%(lineno)d: %(message)s",
