@@ -2,7 +2,7 @@ import sys
 import os
 import json
 import logging
-from google_sheet import SheetReaderService
+from source.gsheet import GSheet
 from target.database import Database
 
 
@@ -11,7 +11,6 @@ logging.basicConfig(
     level=logging.INFO,
     stream=sys.stdout,
 )
-logging.getLogger()
 
 
 def read_service_creds(key_file_location):
@@ -26,13 +25,6 @@ def get_configurations():
         return json.loads(config.read())
 
 
-def read_data(service, sheet_config):
-    sheet_id = sheet_config["id"]
-    range = sheet_config["range"]
-    has_header = sheet_config.get("has_header", True)
-    return service.read(sheet_id, range, has_header)
-
-
 def run():
     configs = get_configurations()
     logging.info(f"{len(configs)} configs found")
@@ -43,7 +35,7 @@ def run():
     database_url = os.environ["DATABASE_URL"]
     logging.info(database_url)
 
-    service = SheetReaderService(key_file_location)
+    service = GSheet(key_file_location)
     db = Database(database_url)
     result = {}
     for config in configs:
@@ -56,7 +48,7 @@ def run():
             logging.exception(message)
             result[name] = message
         try:
-            data = read_data(service, read_config)
+            data = service.read(read_config)
             logging.info(f"read success {len(data)} rows read")
         except Exception:
             message = f"Reading sheet failed: {read_config}"
